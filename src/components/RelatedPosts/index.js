@@ -13,11 +13,13 @@ export default function RealtedPosts() {
         return <Text>Loading</Text>;
     }
     return (
-        <FlatList
-            data={response}
-            ListHeaderComponent={() => <Title>Related Article</Title>}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id.toString()}
-        />
+        <SafeAreaView style={{ flex: 1 }}>
+            <FlatList
+                data={response}
+                ListHeaderComponent={() => <Title>Related Article</Title>}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id.toString()}
+            />
+        </SafeAreaView>
     );
 }

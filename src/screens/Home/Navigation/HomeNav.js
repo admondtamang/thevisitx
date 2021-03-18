@@ -2,18 +2,19 @@ import React, { useState } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { Card, Subheading, Title } from "react-native-paper";
 import Article from "../../../components/Article";
-import useFetch from "../../../components/UseFetch";
+import useFetchInfinite from "../../../components/UseFetchInfinite";
 export default function HomeNav() {
     const [page, setPage] = useState(1);
-    const [loadingMore, setLoadingMore] = useState(false);
-    const url = "https://www.thevisitx.com/wp-json/wp/v2/posts?per_page=5&orderby=date&order=desc&page=";
-    const { response, error, isLoading } = useFetch(url + page);
+    const url = "https://www.thevisitx.com/wp-json/wp/v2/posts?per_page=10&orderby=date&order=desc&page=";
+    const { response, error, isLoading, refreshing, loadingMore } = useFetchInfinite(url + page, page);
     const renderItem = ({ item }) => <Article item={item} />;
     function handleLoadMore() {
-        console.log("hllo");
+        setPage((prev) => prev + 1);
+        loadingMore = true;
     }
 
     function handleRefresh() {
+        refreshing = true;
         setPage(1);
     }
 
@@ -43,11 +44,11 @@ export default function HomeNav() {
                     <FlatList
                         data={response}
                         renderItem={renderItem}
-                        keyExtractor={(item) => item.id.toString()}
+                        keyExtractor={(item) => item?.id.toString()}
                         onEndReached={handleLoadMore}
-                        onEndReachedThreshold={0.5}
-                        initialNumToRender={10}
-                        ListFooterComponent={this.renderFooter}
+                        onRefresh={isLoading}
+                        onEndReachedThreshold={0}
+                        ListFooterComponent={renderFooter}
                     />
                 )}
             </View>
