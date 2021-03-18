@@ -1,8 +1,8 @@
 import * as React from "react";
-import TabNavigator from "./routes/TabNavigator";
 
 import { NavigationContainer, DarkTheme as NavigationDarkTheme } from "@react-navigation/native";
 import { DefaultTheme, DarkTheme as PaperDarkTheme, Provider as PaperProvider } from "react-native-paper";
+import StackNavigator from "./routes/StackNavigator";
 
 // const CombinedDarkTheme = {
 //     ...PaperDarkTheme,
@@ -24,7 +24,7 @@ export default function Main() {
     return (
         <PaperProvider theme={theme}>
             <NavigationContainer>
-                <TabNavigator />
+                <StackNavigator />
             </NavigationContainer>
         </PaperProvider>
     );

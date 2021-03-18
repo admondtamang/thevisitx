@@ -1,5 +1,4 @@
 import React from "react";
-import { AlignJustify } from "react-feather";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Card, Subheading, Title } from "react-native-paper";
 export default function LargeArticle() {

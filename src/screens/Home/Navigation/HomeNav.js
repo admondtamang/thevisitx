@@ -1,24 +1,29 @@
-import React from "react";
-import { FlatList, View } from "react-native";
+import React, { useState } from "react";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { Card, Subheading, Title } from "react-native-paper";
 import Article from "../../../components/Article";
-
+import useFetch from "../../../components/UseFetch";
 export default function HomeNav() {
-    const renderItem = ({ item }) => <Article />;
-    const DATA = [
-        {
-            id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-            title: "First Item",
-        },
-        {
-            id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-            title: "Second Item",
-        },
-        {
-            id: "58694a0f-3da1-471f-bd96-145571e29d72",
-            title: "Third Item",
-        },
-    ];
+    const [page, setPage] = useState(1);
+    const [loadingMore, setLoadingMore] = useState(false);
+    const url = "https://www.thevisitx.com/wp-json/wp/v2/posts?per_page=5&orderby=date&order=desc&page=";
+    const { response, error, isLoading } = useFetch(url + page);
+    const renderItem = ({ item }) => <Article item={item} />;
+    function handleLoadMore() {
+        console.log("hllo");
+    }
+
+    function handleRefresh() {
+        setPage(1);
+    }
+
+    const renderFooter = () => {
+        if (isLoading) {
+            return <Text>Loading...</Text>;
+        } else {
+            return null;
+        }
+    };
 
     return (
         <View style={{ backgroundColor: "white", padding: 10 }}>
@@ -32,8 +37,19 @@ export default function HomeNav() {
 
             <View style={{ marginTop: 10 }}>
                 <Title style={{ fontWeight: "800" }}>Highlights</Title>
-
-                <FlatList data={DATA} renderItem={renderItem} keyExtractor={(item) => item.id} />
+                {isLoading ? (
+                    <Text>Loading</Text>
+                ) : (
+                    <FlatList
+                        data={response}
+                        renderItem={renderItem}
+                        keyExtractor={(item) => item.id.toString()}
+                        onEndReached={handleLoadMore}
+                        onEndReachedThreshold={0.5}
+                        initialNumToRender={10}
+                        ListFooterComponent={this.renderFooter}
+                    />
+                )}
             </View>
         </View>
     );

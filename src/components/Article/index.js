@@ -1,22 +1,40 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, useWindowDimensions } from "react-native";
+import he from "he";
+import moment from "moment";
 
-export default function Article() {
-    const onPress = () => console.log("hello");
+import { useNavigation } from "@react-navigation/native";
+export default function Article({ item, RealtedPosts }) {
+    const navigation = useNavigation();
+    const { title, content, excerpt, jetpack_featured_media_url, date, slug } = item;
+
+    const onPress = () => {
+        navigation.navigate("ArticleDetail", {
+            title,
+            slug,
+        });
+    };
+    let post_date = moment(date).format("YYYY-MM-DD");
+
+    // Delete Html tags
+    var stripedHtml = excerpt.rendered.replace(/<[^>]+>/g, "");
+    var decodedStripedHtml = he.decode(stripedHtml);
+
+    const contentWidth = useWindowDimensions().width;
 
     return (
         <TouchableOpacity style={styles.article} onPress={onPress}>
             <View style={styles.article__desc}>
-                <Text style={{ fontWeight: "bold" }}>Discover new thing of the world</Text>
-                <Text>
-                    Discover new thing of the world Discover new thing of the world Discover new thing of the world Discover new thing of
-                    the world
+                <Text numberOfLines={2} style={{ fontWeight: "bold" }}>
+                    {title.rendered}
                 </Text>
+                <Text numberOfLines={RealtedPosts ? 3 : 3}>{decodedStripedHtml}</Text>
+                {/* <HTML source={{ html: excerpt.rendered }} contentWidth={contentWidth} /> */}
                 <View>
-                    <Text style={{ color: "grey" }}>Nov 3 . 10 min read</Text>
+                    <Text style={{ color: "grey" }}>{post_date}</Text>
                 </View>
             </View>
-            <Image style={styles.article__pic} source={{ uri: "https://picsum.photos/700" }} />
+            <Image style={styles.article__pic} source={{ uri: jetpack_featured_media_url }} />
         </TouchableOpacity>
     );
 }
