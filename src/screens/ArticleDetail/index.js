@@ -3,6 +3,7 @@ import { View, Text, ScrollView, Image, useWindowDimensions, StyleSheet } from "
 import { Title } from "react-native-paper";
 import HTML from "react-native-render-html";
 import RealtedPosts from "../../components/RelatedPosts";
+import SkeletonArticleDetail from "../../components/Skeleton/SkeletonArticleDetail";
 import useFetch from "../../components/UseFetch";
 
 export default function ArticleDetail({ route }) {
@@ -11,7 +12,7 @@ export default function ArticleDetail({ route }) {
     const { response, error, isLoading } = useFetch("https://www.thevisitx.com/wp-json/wp/v2/posts?slug=" + route.params.slug);
 
     if (isLoading || !response) {
-        return <Text>Loading...</Text>;
+        return <SkeletonArticleDetail />;
     }
 
     const res = Object.assign({}, response);

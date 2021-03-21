@@ -12,19 +12,20 @@ const useFetchInfinite = (url, page) => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const res = await axios(url);
-                console.error(res.data);
-                setResponse([...response, res.data]);
+                const res = await axios(url + page);
+
+                setResponse(page === 1 ? res.data : [...response, ...res.data]);
+                // setResponse([...response, ...res.data]);
                 setIsLoading(false);
                 setRefreshing(false);
                 setLoadMore(false);
             } catch (error) {
-                setError(error);
                 setIsLoading(false);
+                setError(error);
             }
         };
         fetchData();
-    }, [url]);
+    }, [url, page]);
     return { response, error, isLoading, refreshing, loadMore };
 };
 

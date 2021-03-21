@@ -2,6 +2,7 @@ import React from "react";
 import { View, FlatList, Text, SafeAreaView } from "react-native";
 import { Title } from "react-native-paper";
 import Article from "../Article";
+import SkeletonArticle from "../Skeleton/SkeletonArticle";
 import useFetch from "../UseFetch";
 
 export default function RealtedPosts() {
@@ -10,7 +11,14 @@ export default function RealtedPosts() {
     const renderItem = ({ item }) => <Article item={item} RealtedPosts />;
 
     if (isLoading) {
-        return <Text>Loading</Text>;
+        return (
+            <>
+                <SkeletonArticle />
+                <SkeletonArticle />
+                <SkeletonArticle />
+                <SkeletonArticle />
+            </>
+        );
     }
     return (
         <SafeAreaView style={{ flex: 1 }}>
