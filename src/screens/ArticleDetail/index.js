@@ -16,6 +16,7 @@ export default function ArticleDetail({ route }) {
     }
 
     const res = Object.assign({}, response);
+
     const { title, content, excerpt, jetpack_featured_media_url, date, slug } = res[0];
 
     return (

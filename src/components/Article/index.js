@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, useWindowDimensions } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, useWindowDimensions, ImagePickerIOS } from "react-native";
 import he from "he";
 import moment from "moment";
 
@@ -14,12 +14,15 @@ export default function Article({ item, RealtedPosts }) {
             slug,
         });
     };
+
+    // Converted date
     let post_date = moment(date).format("YYYY-MM-DD");
 
     // Delete Html tags
     var stripedHtml = excerpt.rendered.replace(/<[^>]+>/g, "");
     var decodedStripedHtml = he.decode(stripedHtml);
 
+    // mobile with
     const contentWidth = useWindowDimensions().width;
 
     return (

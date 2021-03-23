@@ -5,15 +5,14 @@ import Article from "../../../components/Article";
 import MyCarousel from "../../../components/Carousel";
 import useFetchInfinite from "../../../components/UseFetchInfinite";
 
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import SkeletonArticle from "../../../components/Skeleton/SkeletonArticle";
 export default function HomeNav() {
-    const [page, setPage] = useState(1);
     const url = "https://www.thevisitx.com/wp-json/wp/v2/posts?per_page=10&orderby=date&order=desc&page=";
-    const { response, error, isLoading, refreshing, loadingMore } = useFetchInfinite(url, page);
+    const { response, error, isLoading, refreshing, loadingMore } = useFetchInfinite(url);
     const renderItem = ({ item }) => <Article item={item} />;
 
     function handleLoadMore() {
-        setPage((prev) => prev + 1);
         loadingMore = true;
     }
 
