@@ -24,7 +24,7 @@ export default function ArticleDetail({ route }) {
             <Title style={styles.title}>{title.rendered}</Title>
             <Image style={styles.article__pic} source={{ uri: jetpack_featured_media_url }} />
             <HTML source={{ html: content.rendered }} contentWidth={contentWidth} />
-            <RealtedPosts />
+            <RealtedPosts data={response} />
         </ScrollView>
     );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { ToastAndroid } from "react-native";
 
 const useFetchInfinite = (url) => {
     const [response, setResponse] = useState([]);
@@ -20,6 +21,7 @@ const useFetchInfinite = (url) => {
                 setIsLoading(false);
                 setRefreshing(false);
                 setLoadMore(false);
+                // ToastAndroid.show("hello");
             } catch (error) {
                 setIsLoading(false);
                 setError(error);

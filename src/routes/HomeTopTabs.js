@@ -10,7 +10,7 @@ export default function MyTabs() {
     return (
         <Tab.Navigator
             tabBarOptions={{
-                labelStyle: { fontSize: 12, color: "#0D0C22" },
+                labelStyle: { fontSize: 12, color: "#0D0C22", textTransform: "lowercase" },
                 tabStyle: { backgroundColor: "white", width: 100, shadowColor: "NavigationDarkTheme" },
                 scrollEnabled: true,
                 upperCaseLabel: false,
@@ -21,9 +21,9 @@ export default function MyTabs() {
                 indicatorStyle: { color: "red" },
             }}
         >
-            <Tab.Screen name="Home" component={HomeNav} />
+            <Tab.Screen name="Latest" component={HomeNav} />
             <Tab.Screen name="Trending" component={Trending} />
-            <Tab.Screen name="d" component={User} />
+            <Tab.Screen name="Tech" component={User} />
         </Tab.Navigator>
     );
 }
