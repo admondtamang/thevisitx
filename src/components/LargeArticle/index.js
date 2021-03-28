@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Card, Subheading, Title } from "react-native-paper";
 import HTML from "react-native-render-html";
 import useWindowDimensions from "react-native/Libraries/Utilities/useWindowDimensions";
+import colors from "../../utils/colors";
 export default function LargeArticle({ item }) {
     // Hooks
     const contentWidth = useWindowDimensions().width;
@@ -13,7 +14,7 @@ export default function LargeArticle({ item }) {
     const { title, content, excerpt, jetpack_featured_media_url, date, slug } = item;
 
     // Converted date
-    let post_date = moment(date).format("YYYY-MM-DD");
+    let post_date = moment(date).format("MMM DD") + " . " + moment(date).fromNow();
 
     const onPress = () => {
         navigation.navigate("ArticleDetail", {
@@ -30,7 +31,7 @@ export default function LargeArticle({ item }) {
             <Card style={{ marginVertical: 5 }}>
                 <Card.Cover source={{ uri: jetpack_featured_media_url }} style={{ borderRadius: 10 }} />
             </Card>
-            <Text style={{ color: "grey" }}>{post_date}. 10 min read</Text>
+            <Text style={{ color: "grey", paddingTop: 5 }}>{post_date}</Text>
         </TouchableOpacity>
     );
 }
@@ -39,6 +40,8 @@ const styles = StyleSheet.create({
     article: {
         marginHorizontal: 10,
         padding: 10,
+        backgroundColor: colors.white,
+        borderRadius: 5,
         marginBottom: 10,
     },
 });

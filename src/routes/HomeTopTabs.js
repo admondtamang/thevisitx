@@ -3,7 +3,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import Trending from "../screens/Trending";
 import User from "../screens/User";
 import HomeNav from "../screens/Home/Navigation/HomeNav";
-
+import colors from "../utils/colors";
 const Tab = createMaterialTopTabNavigator();
 
 export default function MyTabs() {
@@ -11,14 +11,25 @@ export default function MyTabs() {
         <Tab.Navigator
             tabBarOptions={{
                 labelStyle: { fontSize: 12, color: "#0D0C22", textTransform: "lowercase" },
-                tabStyle: { backgroundColor: "white", width: 100, shadowColor: "NavigationDarkTheme" },
+                tabStyle: { width: 100, shadowColor: "NavigationDarkTheme" },
                 scrollEnabled: true,
                 upperCaseLabel: false,
                 labelStyle: {
-                    activeTintColor: "red",
-                    inactiveTintColor: "grey",
+                    fontWeight: "700",
                 },
-                indicatorStyle: { color: "red" },
+                indicatorStyle: {
+                    color: colors.primary,
+                    backgroundColor: colors.grey,
+                    padding: 23,
+                    borderRadius: 10,
+                },
+                contentContainerStyle: {
+                    shadowColor: "white",
+                    borderTopColor: "black",
+                },
+                style: {
+                    shadowColor: "white",
+                },
             }}
         >
             <Tab.Screen name="Latest" component={HomeNav} />

@@ -4,8 +4,6 @@ import { Card, Subheading, Title } from "react-native-paper";
 import Article from "../../../components/Article";
 import MyCarousel from "../../../components/Carousel";
 import useFetchInfinite from "../../../components/UseFetchInfinite";
-
-import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import SkeletonArticle from "../../../components/Skeleton/SkeletonArticle";
 export default function HomeNav() {
     const url = "https://www.thevisitx.com/wp-json/wp/v2/posts?per_page=10&orderby=date&order=desc&page=";

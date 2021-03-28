@@ -10,7 +10,7 @@ export default function Trending() {
     const { response, error, isLoading, refreshing, loadingMore } = useFetchInfinite(url);
     const renderItem = ({ item }) => <LargeArticle item={item} />;
 
-    if (!isLoading) {
+    if (isLoading) {
         return (
             <>
                 <SkeletonLargeArticle />

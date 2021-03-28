@@ -4,6 +4,7 @@ import User from "../screens/User";
 import Home from "../screens/Home/Home";
 import Trending from "../screens/Trending";
 import { MaterialIcons } from "@expo/vector-icons";
+import SearchScreen from "../screens/SearchScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -11,10 +12,9 @@ const TabNavigator = () => {
     return (
         <Tab.Navigator
             initialRouteName="Home"
-            tabBarOptions={{
-                activeTintColor: "#4A5AEF",
-                inactiveTintColor: "gray",
-            }}
+            // tabBarOptions={{
+            //     activeTintColor: "#4A5AEF",
+            // }}
         >
             <Tab.Screen
                 name="Home"
@@ -30,6 +30,14 @@ const TabNavigator = () => {
                 options={{
                     tabBarLabel: "Trending",
                     tabBarIcon: ({ color, size }) => <MaterialIcons name="trending-up" size={size} color={color} />,
+                }}
+            />
+            <Tab.Screen
+                name="Search"
+                component={SearchScreen}
+                options={{
+                    tabBarLabel: "Search",
+                    tabBarIcon: ({ color, size }) => <MaterialIcons name="search" size={size} color={color} />,
                 }}
             />
 

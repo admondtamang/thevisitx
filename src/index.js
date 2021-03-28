@@ -4,7 +4,11 @@ import { NavigationContainer, DarkTheme as NavigationDarkTheme } from "@react-na
 import { DefaultTheme, DarkTheme as PaperDarkTheme, Provider as PaperProvider } from "react-native-paper";
 import StackNavigator from "./routes/StackNavigator";
 import { StatusBar } from "expo-status-bar";
+import store from "./redux/configureStore";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
+import { persistStore, persistReducer } from "redux-persist";
 // const CombinedDarkTheme = {
 //     ...PaperDarkTheme,
 //     ...NavigationDarkTheme,
@@ -22,12 +26,17 @@ const theme = {
 };
 
 export default function Main() {
+    let persistor = persistStore(store);
     return (
-        <PaperProvider theme={theme}>
-            {/* <StatusBar /> */}
-            <NavigationContainer>
-                <StackNavigator />
-            </NavigationContainer>
-        </PaperProvider>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <PaperProvider theme={theme}>
+                    <StatusBar />
+                    <NavigationContainer>
+                        <StackNavigator />
+                    </NavigationContainer>
+                </PaperProvider>
+            </PersistGate>
+        </Provider>
     );
 }

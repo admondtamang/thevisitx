@@ -9,9 +9,12 @@ import useFetch from "../../components/UseFetch";
 export default function ArticleDetail({ route }) {
     const contentWidth = useWindowDimensions().width;
 
-    const { response, error, isLoading } = useFetch("https://www.thevisitx.com/wp-json/wp/v2/posts?slug=" + route.params.slug);
+    let url = "https://www.thevisitx.com/wp-json/wp/v2/posts?slug=" + route.params.slug;
 
-    if (isLoading || !response) {
+    const { response, error, isLoading } = useFetch(url);
+
+    console.log("Err ", url, response);
+    if (isLoading || !response || error) {
         return <SkeletonArticleDetail />;
     }
 

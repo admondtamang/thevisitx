@@ -16,7 +16,7 @@ export default function Article({ item, RealtedPosts }) {
     };
 
     // Converted date
-    let post_date = moment(date).format("YYYY-MM-DD");
+    let post_date = moment(date).format("MMM DD") + " . " + moment(date).fromNow();
 
     // Delete Html tags
     var stripedHtml = excerpt.rendered.replace(/<[^>]+>/g, "");
@@ -34,7 +34,7 @@ export default function Article({ item, RealtedPosts }) {
                 <Text numberOfLines={RealtedPosts ? 3 : 3}>{decodedStripedHtml}</Text>
                 {/* <HTML source={{ html: excerpt.rendered }} contentWidth={contentWidth} /> */}
                 <View>
-                    <Text style={{ color: "grey" }}>{post_date}</Text>
+                    <Text style={styles.article__time}>{post_date}</Text>
                 </View>
             </View>
             <Image style={styles.article__pic} source={{ uri: jetpack_featured_media_url }} />
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     },
     article__time: {
         color: "grey",
+        fontSize: 13,
     },
     article__pic: {
         maxWidth: 100,
