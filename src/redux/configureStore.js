@@ -4,6 +4,7 @@ import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } fro
 import AsyncStorage from "@react-native-community/async-storage";
 
 import userSlice from "./user/userSlice";
+import logger from "redux-logger";
 
 const persistConfig = {
     key: "samachar",
@@ -23,7 +24,7 @@ const store = configureStore({
         serializableCheck: {
             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-    }),
+    }).concat(logger),
     devTools: true,
 });
 

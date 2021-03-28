@@ -1,36 +1,38 @@
 {
-    "expo": {
-        "name": "samachar",
-        "slug": "samachar",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "supportsTablet": true
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#FFFFFF"
-            },
-            "package": "host.exp.exponent"
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
-        "description": "",
-        "extra": {
-            "IOS_KEY": "<generated_client_id>",
-            "ANDROID_KEY": "150398907444-6edkhdrbnutdivi2k6k49otbsdqf7n8h.apps.googleusercontent.com"
-        }
+  "expo": {
+    "name": "samachar",
+    "slug": "samachar",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "host.exp.exponent"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "description": "",
+    "extra": {
+      "IOS_KEY": "<generated_client_id>",
+      "ANDROID_KEY": "150398907444-6edkhdrbnutdivi2k6k49otbsdqf7n8h.apps.googleusercontent.com"
     }
+  }
 }

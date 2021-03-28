@@ -4,7 +4,7 @@ const user = createSlice({
     name: "user",
     initialState: {
         data: null,
-        status: null,
+        darkMode: false,
     },
 
     reducers: {
@@ -21,8 +21,14 @@ const user = createSlice({
                 data: null,
             };
         },
+        switchDarkMode: (state) => {
+            return {
+                ...state,
+                darkMode: !state.darkMode,
+            };
+        },
     },
 });
 
-export const { login, logout } = user.actions;
+export const { login, logout, switchDarkMode } = user.actions;
 export default user.reducer;

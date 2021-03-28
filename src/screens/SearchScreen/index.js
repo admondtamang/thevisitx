@@ -21,9 +21,9 @@ const SearchScreen = () => {
     const renderItem = ({ item }) => <Article item={item} />;
 
     return (
-        <SafeAreaView style={{ paddingTop: 20 }}>
+        <SafeAreaView style={{ paddingVertical: 30, padding: 10 }}>
             <StatusBar />
-            <Searchbar placeholder="Search" onChangeText={onChangeSearch} value={searchQuery} />
+            <Searchbar placeholder="Enter news" onChangeText={onChangeSearch} value={searchQuery} />
 
             {isLoading ? (
                 <>
@@ -35,6 +35,7 @@ const SearchScreen = () => {
                 <FlatList
                     data={response}
                     renderItem={renderItem}
+                    ListHeaderComponent={<Title>Search {searchQuery}</Title>}
                     keyExtractor={(item) => item?.id.toString()}
                     ListEmptyComponent={<Text>Empty</Text>}
                 />

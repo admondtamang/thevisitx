@@ -7,26 +7,27 @@ import * as Facebook from "expo-facebook";
 import * as Google from "expo-google-app-auth";
 import firebase from "firebase"; //basic firebase
 // import firebase from "../../helpers/firebase"; //This is the initialized Firebase, you can find it in my GitHub
-import { ActivityIndicator, Avatar, Caption, Title, Button } from "react-native-paper";
+import { Avatar, Caption, Title, Button, Switch } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Loading from "../../components/Loading";
 import SignScreen from "./SignScreen";
-import { login, logout } from "../../redux/user/userSlice";
+import { login, logout, switchDarkMode } from "../../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import SearchScreen from "../SearchScreen";
 
 export default function User() {
-    const [isLoading, setIsLoading] = useState(false);
-    // const [user, setUser] = useState(null);
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
     const user = useSelector((state) => state.user.data);
+    const darkMode = useSelector((state) => state.user.darkMode);
     const facebookAppId = "899946727075631";
+    const androidAppId = "150398907444-6edkhdrbnutdivi2k6k49otbsdqf7n8h.apps.googleusercontent.com";
+    useEffect(() => {}, [dispatch]);
 
     async function signInWithGoogle() {
         setIsLoading(true);
         try {
             const result = await Google.logInAsync({
-                androidClientId: Constants.manifest.extra.ANDROID_KEY,
+                androidClientId: Constants.manifest.extra.ANDROID_KEY || androidAppId,
                 behavior: "web",
                 scopes: ["profile", "email"],
             });
@@ -138,7 +139,6 @@ export default function User() {
                         </View>
                     </View>
                 </View>
-
                 <View style={styles.userInfoSection}>
                     {/* <View style={styles.row}>
                     <Icon name="map-marker-radius" color="#777777" size={20} />
@@ -152,12 +152,17 @@ export default function User() {
                         <Icon name="email" color="#777777" size={20} />
                         <Text style={{ color: "#777777", marginLeft: 20 }}>{email}</Text>
                     </View>
-
-                    {/* <Button title="Logout" onPress={logout} /> */}
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#81b0ff" }}
+                        thumbColor={darkMode ? "#f5dd4b" : "#f4f3f4"}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={() => dispatch(switchDarkMode())}
+                        value={darkMode}
+                    />
+                    <Button icon="power" mode="contained" onPress={() => dispatch(logout())}>
+                        Logout
+                    </Button>
                 </View>
-                <Button icon="camera" mode="contained" onPress={() => dispatch(logout())}>
-                    Logout
-                </Button>
                 {/* <Button title="Facebook" onPress={signInWithFacebook} /> */}
             </SafeAreaView>
         );

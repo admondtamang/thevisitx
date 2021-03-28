@@ -3,15 +3,16 @@ import { Feather } from "@expo/vector-icons";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { Title } from "react-native-paper";
 import MyTabs from "../../routes/HomeTopTabs";
-import { useNavigation } from "@react-navigation/core";
 
+import { useNavigation, useTheme } from "@react-navigation/native";
 export default function Home() {
     const navigation = useNavigation();
+    const { colors } = useTheme();
     const onPress = () => {
         navigation.navigate("Search");
     };
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={{ backgroundColor: colors.backgroud }}>
             <View style={styles.heading}>
                 <Title style={{ fontWeight: "bold" }}>Monty Express</Title>
                 <TouchableOpacity onPress={onPress}>
@@ -30,8 +31,5 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         padding: 10,
-    },
-    container: {
-        backgroundColor: "white",
     },
 });

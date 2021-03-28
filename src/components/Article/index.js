@@ -3,9 +3,10 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, useWindowDimensions, I
 import he from "he";
 import moment from "moment";
 
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
 export default function Article({ item, RealtedPosts }) {
     const navigation = useNavigation();
+    const { colors } = useTheme();
     const { title, content, excerpt, jetpack_featured_media_url, date, slug } = item;
 
     const onPress = () => {
@@ -26,12 +27,14 @@ export default function Article({ item, RealtedPosts }) {
     const contentWidth = useWindowDimensions().width;
 
     return (
-        <TouchableOpacity style={styles.article} onPress={onPress}>
+        <TouchableOpacity style={[styles.article, { backgroundColor: colors.background }]} onPress={onPress}>
             <View style={styles.article__desc}>
-                <Text numberOfLines={2} style={{ fontWeight: "bold" }}>
+                <Text numberOfLines={2} style={{ fontWeight: "bold", color: colors.text }}>
                     {title.rendered}
                 </Text>
-                <Text numberOfLines={RealtedPosts ? 3 : 3}>{decodedStripedHtml}</Text>
+                <Text style={{ color: colors.text }} numberOfLines={RealtedPosts ? 3 : 3}>
+                    {decodedStripedHtml}
+                </Text>
                 {/* <HTML source={{ html: excerpt.rendered }} contentWidth={contentWidth} /> */}
                 <View>
                     <Text style={styles.article__time}>{post_date}</Text>
@@ -48,6 +51,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         height: 130,
         borderWidth: 1,
+        // backgroundColor: colors.background,
         borderColor: "#E5E5E5",
         padding: 10,
         marginBottom: 10,
