@@ -1,24 +1,24 @@
 import * as React from "react";
 
 import { NavigationContainer, DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from "@react-navigation/native";
-import { useTheme, DefaultTheme as PaperDefaultTheme, DarkTheme as PaperDarkTheme, Provider as PaperProvider } from "react-native-paper";
+import { DefaultTheme as PaperDefaultTheme, DarkTheme as PaperDarkTheme, Provider as PaperProvider } from "react-native-paper";
 import StackNavigator from "./routes/StackNavigator";
 import { StatusBar } from "expo-status-bar";
-import store from "./redux/configureStore";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-
-import { persistStore, persistReducer } from "redux-persist";
+import { useSelector } from "react-redux";
 
 const CombinedDarkTheme = {
     ...PaperDarkTheme,
     ...NavigationDarkTheme,
+    roundness: 2,
+
     colors: { ...PaperDarkTheme.colors, ...NavigationDarkTheme.colors, background: "#333333", text: "#ffffff" },
 };
 
 const combinedLightTheme = {
     ...NavigationDefaultTheme,
     ...PaperDefaultTheme,
+    roundness: 2,
+
     colors: {
         ...NavigationDefaultTheme.colors,
         ...PaperDefaultTheme.colors,
@@ -27,32 +27,21 @@ const combinedLightTheme = {
     },
 };
 
-// const theme = {
-//     ...DefaultTheme,
-//     roundness: 2,
-//     colors: {
-//         ...DefaultTheme.colors,
-//         primary: "#3498db",
-//         accent: "#f1c40f",
-//     },
-// };
-
 export default function Main() {
-    let persistor = persistStore(store);
+    const isDarkTheme = useSelector((state) => state.user.darkMode);
 
-    let isDarkTheme = store.getState().user.darkMode;
-    React.useEffect(() => {}, [isDarkTheme]);
+    // const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+    // React.useEffect(() => {
+    //     setIsDarkTheme(store.getState().user.darkMode);
+    // }, [isDarkTheme]);
     const theme = isDarkTheme ? CombinedDarkTheme : combinedLightTheme;
+
     return (
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <PaperProvider theme={theme}>
-                    <StatusBar style={!theme.dark ? "dark" : "light"} />
-                    <NavigationContainer theme={theme}>
-                        <StackNavigator />
-                    </NavigationContainer>
-                </PaperProvider>
-            </PersistGate>
-        </Provider>
+        <PaperProvider theme={theme}>
+            <StatusBar style={!theme.dark ? "dark" : "light"} />
+            <NavigationContainer theme={theme}>
+                <StackNavigator />
+            </NavigationContainer>
+        </PaperProvider>
     );
 }

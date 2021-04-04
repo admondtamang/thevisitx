@@ -18,9 +18,10 @@ export default function MyTabs() {
                     fontWeight: "700",
                 },
                 indicatorStyle: {
+                    borderColor: colors.primary,
                     color: colors.primary,
-                    backgroundColor: colors.grey,
-                    padding: 23,
+                    // backgroundColor: colors.secondary,
+                    // padding: 23,
                     borderRadius: 10,
                 },
                 contentContainerStyle: {

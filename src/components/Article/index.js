@@ -4,7 +4,9 @@ import he from "he";
 import moment from "moment";
 
 import { useNavigation, useTheme } from "@react-navigation/native";
-export default function Article({ item, RealtedPosts }) {
+import styled from "styled-components/native";
+
+export default function Article({ item, RealtedPosts, SearchArticle }) {
     const navigation = useNavigation();
     const { colors } = useTheme();
     const { title, content, excerpt, jetpack_featured_media_url, date, slug } = item;
@@ -26,9 +28,36 @@ export default function Article({ item, RealtedPosts }) {
     // mobile with
     const contentWidth = useWindowDimensions().width;
 
+    const Conatiner = styled.TouchableOpacity`
+        flex-direction: row;
+        justify-content: space-between;
+        /* align-items: center; */
+        height: ${SearchArticle ? "80px" : "130px"};
+        border-width: 1;
+        background-color: ${colors.background};
+        border-color: #e5e5e5;
+        padding: 10px;
+        margin-bottom: 10px;
+    `;
+    const Row = styled.View`
+        flex-direction: column;
+        flex-basis: 70%;
+        flex: 1;
+        padding-right: 10px;
+    `;
+
+    if (SearchArticle) {
+        return (
+            <Conatiner>
+                <Image style={styles.article__pic} source={{ uri: jetpack_featured_media_url }} />
+                <Text style={{ fontWeight: "bold", color: colors.text, flexBasis: "70%", alignSelf: "center" }}>{title.rendered}</Text>
+            </Conatiner>
+        );
+    }
+
     return (
-        <TouchableOpacity style={[styles.article, { backgroundColor: colors.background }]} onPress={onPress}>
-            <View style={styles.article__desc}>
+        <Conatiner onPress={onPress}>
+            <Row>
                 <Text numberOfLines={2} style={{ fontWeight: "bold", color: colors.text }}>
                     {title.rendered}
                 </Text>
@@ -39,11 +68,12 @@ export default function Article({ item, RealtedPosts }) {
                 <View>
                     <Text style={styles.article__time}>{post_date}</Text>
                 </View>
-            </View>
+            </Row>
             <Image style={styles.article__pic} source={{ uri: jetpack_featured_media_url }} />
-        </TouchableOpacity>
+        </Conatiner>
     );
 }
+
 const styles = StyleSheet.create({
     article: {
         flex: 1,

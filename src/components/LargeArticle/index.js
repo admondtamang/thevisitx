@@ -1,11 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
 import moment from "moment";
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Card, Subheading, Title } from "react-native-paper";
+import { Text } from "react-native";
+import { Card, Title } from "react-native-paper";
 import HTML from "react-native-render-html";
 import useWindowDimensions from "react-native/Libraries/Utilities/useWindowDimensions";
-import colors from "../../utils/colors";
+import styled from "styled-components/native";
+
 export default function LargeArticle({ item }) {
     // Hooks
     const contentWidth = useWindowDimensions().width;
@@ -22,26 +23,22 @@ export default function LargeArticle({ item }) {
             slug,
         });
     };
-
+    const Conatiner = styled.TouchableOpacity`
+        border-width: 1;
+        border-color: #e5e5e5;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 10px;
+    `;
     return (
-        <TouchableOpacity onPress={onPress} style={styles.article}>
+        <Conatiner onPress={onPress}>
             <Title style={{ fontWeight: "bold" }}>{title.rendered}</Title>
 
-            <HTML source={{ html: excerpt.rendered }} contentWidth={contentWidth} />
+            <HTML source={{ html: excerpt.rendered.replace("[&hellip;]", "...") }} contentWidth={contentWidth} />
             <Card style={{ marginVertical: 5 }}>
                 <Card.Cover source={{ uri: jetpack_featured_media_url }} style={{ borderRadius: 10 }} />
             </Card>
             <Text style={{ color: "grey", paddingTop: 5 }}>{post_date}</Text>
-        </TouchableOpacity>
+        </Conatiner>
     );
 }
-
-const styles = StyleSheet.create({
-    article: {
-        marginHorizontal: 10,
-        padding: 10,
-        backgroundColor: colors.white,
-        borderRadius: 5,
-        marginBottom: 10,
-    },
-});

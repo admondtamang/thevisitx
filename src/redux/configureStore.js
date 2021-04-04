@@ -10,6 +10,7 @@ const persistConfig = {
     key: "samachar",
     version: 1,
     storage: AsyncStorage,
+    timeout: null,
 };
 
 const reducer = combineReducers({
@@ -24,8 +25,7 @@ const store = configureStore({
         serializableCheck: {
             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-    }).concat(logger),
-    devTools: true,
+    }),
 });
 
 export default store;

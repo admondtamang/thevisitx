@@ -1,20 +1,23 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import Root from "./src";
 import { LogBox } from "react-native";
+import store from "./src/redux/configureStore";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+
+import { persistStore } from "redux-persist";
+
 export default function App() {
     // Ignore log notification by message:
 
     LogBox.ignoreAllLogs(true);
-    return <Root />;
-}
+    let persistor = persistStore(store);
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
+    return (
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <Root />
+            </PersistGate>
+        </Provider>
+    );
+}

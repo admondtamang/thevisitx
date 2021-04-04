@@ -2,9 +2,14 @@ import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text } from "react-native";
 import { Searchbar, Title } from "react-native-paper";
+import styled from "styled-components";
 import Article from "../../components/Article";
 import SkeletonArticle from "../../components/Skeleton/SkeletonArticle";
 import useFetch from "../../components/UseFetch";
+
+const Container = styled.SafeAreaView`
+    padding: 30px 10px;
+`;
 
 const SearchScreen = () => {
     const [searchQuery, setSearchQuery] = React.useState("");
@@ -18,12 +23,12 @@ const SearchScreen = () => {
         return <Title>Cannot load data</Title>;
     }
 
-    const renderItem = ({ item }) => <Article item={item} />;
+    const renderItem = ({ item }) => <Article item={item} SearchArticle />;
 
     return (
-        <SafeAreaView style={{ paddingVertical: 30, padding: 10 }}>
+        <Container>
             <StatusBar />
-            <Searchbar placeholder="Enter news" onChangeText={onChangeSearch} value={searchQuery} />
+            <Searchbar placeholder="Type Article title, news or share" onChangeText={onChangeSearch} value={searchQuery} />
 
             {isLoading ? (
                 <>
@@ -35,12 +40,12 @@ const SearchScreen = () => {
                 <FlatList
                     data={response}
                     renderItem={renderItem}
-                    ListHeaderComponent={<Title>Search {searchQuery}</Title>}
+                    ListHeaderComponent={<Title>Search {searchQuery && `"${searchQuery}"`}</Title>}
                     keyExtractor={(item) => item?.id.toString()}
                     ListEmptyComponent={<Text>Empty</Text>}
                 />
             )}
-        </SafeAreaView>
+        </Container>
     );
 };
 

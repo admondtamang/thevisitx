@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Image, useWindowDimensions } from "react-native";
 import Constants from "expo-constants"; //So we can read app.json extra
 // import * as GoogleSignIn from "expo-google-sign-in";
 
@@ -13,12 +13,19 @@ import Loading from "../../components/Loading";
 import SignScreen from "./SignScreen";
 import { login, logout, switchDarkMode } from "../../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components/native";
+import { contentWidth } from "../../utils/width";
+const Container = styled.SafeAreaView`
+    padding: 20px;
+`;
 
 export default function User() {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const user = useSelector((state) => state.user.data);
     const darkMode = useSelector((state) => state.user.darkMode);
+    const contentWidth = useWindowDimensions().width;
+
     const facebookAppId = "899946727075631";
     const androidAppId = "150398907444-6edkhdrbnutdivi2k6k49otbsdqf7n8h.apps.googleusercontent.com";
     useEffect(() => {}, [dispatch]);
@@ -27,14 +34,17 @@ export default function User() {
         setIsLoading(true);
         try {
             const result = await Google.logInAsync({
-                androidClientId: Constants.manifest.extra.ANDROID_KEY || androidAppId,
+                androidClientId: androidAppId,
+                iosClientId: "ios" + androidAppId,
                 behavior: "web",
                 scopes: ["profile", "email"],
+                permissions: ["public_profile", "email", "gender", "location"],
             });
 
             if (result.type === "success") {
                 // setUser(result.user);
                 console.log(result.user);
+
                 dispatch(login(result.user));
                 setIsLoading(false);
             } else {
@@ -101,20 +111,38 @@ export default function User() {
     }
 
     if (!user) {
+        const Row = styled.View`
+            flex: 1;
+            justify-content: flex-end;
+        `;
         return (
-            <>
+            <Container>
                 <SignScreen signInWithGoogle={signInWithGoogle} />
-                <Button icon="camera" mode="contained" onPress={() => signInWithGoogle()}>
+
+                <Row>
+                    <Text>{darkMode ? "Night Mode " : "Day Mode"}</Text>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#81b0ff" }}
+                        thumbColor={darkMode ? "#f5dd4b" : "#f4f3f4"}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={() => dispatch(switchDarkMode())}
+                        value={darkMode}
+                    />
+                </Row>
+                <Title>Let's sign you in</Title>
+                <Text>We'll love to share information with you. </Text>
+                <Image source={require("../../assets/login.png")} style={{ margin: 20, width: "80%" }} />
+                <Button icon="google" style={{ backgroundColor: "green" }} mode="contained" onPress={() => signInWithGoogle()}>
                     Google Signin
                 </Button>
                 {/* <Button title="Login with Google" onPress={signInWithGoogle} /> */}
-            </>
+            </Container>
         );
     } else {
-        const { familyName, givenName, id, name, photoUrl, email } = user;
+        const { familyName, givenName, id, name, photoUrl, email, location } = user;
 
         return (
-            <SafeAreaView>
+            <Container>
                 <View style={styles.userInfoSection}>
                     <View style={{ flexDirection: "row", marginTop: 15 }}>
                         <Avatar.Image
@@ -164,15 +192,12 @@ export default function User() {
                     </Button>
                 </View>
                 {/* <Button title="Facebook" onPress={signInWithFacebook} /> */}
-            </SafeAreaView>
+            </Container>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
     userInfoSection: {
         paddingHorizontal: 30,
         marginBottom: 25,
