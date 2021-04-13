@@ -33,7 +33,7 @@ export default function Article({ item, RealtedPosts, SearchArticle }) {
         justify-content: space-between;
         /* align-items: center; */
         height: ${SearchArticle ? "80px" : "130px"};
-        border-width: 1;
+        border-width: 1px;
         background-color: ${colors.background};
         border-color: #e5e5e5;
         padding: 10px;

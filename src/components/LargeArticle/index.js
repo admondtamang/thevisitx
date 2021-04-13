@@ -23,8 +23,9 @@ export default function LargeArticle({ item }) {
             slug,
         });
     };
+
     const Conatiner = styled.TouchableOpacity`
-        border-width: 1;
+        border-width: 1px;
         border-color: #e5e5e5;
         padding: 10px;
         margin: 10px 0;

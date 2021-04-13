@@ -1,9 +1,11 @@
-import React from "react";
-import { Text, View, Image, Dimensions } from "react-native";
+import React, { useEffect } from "react";
+import { Text, View, Dimensions } from "react-native";
 import Swiper from "react-native-swiper";
 import styled from "styled-components/native";
+import useFetch from "../../components/UseFetch";
+import Image from "react-native-image-progress";
+import ProgressBar from "react-native-progress";
 const { width } = Dimensions.get("window");
-
 const Container = styled.View`
     flex: 1;
     padding: 20px 0;
@@ -52,6 +54,11 @@ const styles = {
 };
 
 export default function MyCarousel() {
+    const url = "https://www.thevisitx.com/wp-json/wp/v2/posts?per_page=4&orderby=date&order=desc&feature=true";
+
+    const { response, error, isLoading } = useFetch(url, {});
+
+    // console.error("asd", response);
     const data = [
         {
             title: "Biyard",
@@ -79,6 +86,12 @@ export default function MyCarousel() {
             illustration: "https://imgur.com/whdyG3i.jpg",
         },
     ];
+    // const { title, content, excerpt, jetpack_featured_media_url, date, slug } = response;
+
+    // if (isLoading || error) {
+    //     return <Text>Loading</Text>;
+    // }
+
     return (
         <Container>
             <Swiper
@@ -119,9 +132,34 @@ export default function MyCarousel() {
                 }}
                 loop
             >
+                {/* {isLoading ? (
+                    <Text>Loading...</Text>
+                ) : (
+                    <>
+                        {response?.map((item) => (
+                            <View style={styles.slide} title={<Text numberOfLines={1}>{item.title.rendered}</Text>}>
+                                <Image resizeMode="stretch" style={styles.image} source={{ uri: item.jetpack_featured_media_url }} />
+                            </View>
+                        ))}
+                    </>
+                )} */}
+
                 {data.map((item) => (
                     <View style={styles.slide} title={<Text numberOfLines={1}>{item.title}</Text>}>
-                        <Image resizeMode="stretch" style={styles.image} source={{ uri: item.illustration }} />
+                        <Image
+                            source={{ uri: item.illustration }}
+                            indicator={ProgressBar}
+                            indicatorProps={{
+                                size: 80,
+                                borderWidth: 0,
+                                color: "rgba(150, 150, 150, 1)",
+                                unfilledColor: "rgba(200, 200, 200, 0.2)",
+                            }}
+                            style={{
+                                width: width,
+                                height: 240,
+                            }}
+                        />
                     </View>
                 ))}
             </Swiper>

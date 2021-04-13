@@ -12,9 +12,9 @@ const TabNavigator = () => {
     return (
         <Tab.Navigator
             initialRouteName="Home"
-            // tabBarOptions={{
-            //     activeTintColor: "#4A5AEF",
-            // }}
+            tabBarOptions={{
+                activeTintColor: "#000",
+            }}
         >
             <Tab.Screen
                 name="Home"

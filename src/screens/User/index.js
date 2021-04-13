@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView, Image, useWindowDimensions } from "react-native";
 import Constants from "expo-constants"; //So we can read app.json extra
-// import * as GoogleSignIn from "expo-google-sign-in";
+import * as GoogleSignIn from "expo-google-sign-in";
 
 import * as Facebook from "expo-facebook";
 import * as Google from "expo-google-app-auth";
@@ -30,60 +30,60 @@ export default function User() {
     const androidAppId = "150398907444-6edkhdrbnutdivi2k6k49otbsdqf7n8h.apps.googleusercontent.com";
     useEffect(() => {}, [dispatch]);
 
-    async function signInWithGoogle() {
-        setIsLoading(true);
-        try {
-            const result = await Google.logInAsync({
-                androidClientId: androidAppId,
-                iosClientId: "ios" + androidAppId,
-                behavior: "web",
-                scopes: ["profile", "email"],
-                permissions: ["public_profile", "email", "gender", "location"],
-            });
-
-            if (result.type === "success") {
-                // setUser(result.user);
-                console.log(result.user);
-
-                dispatch(login(result.user));
-                setIsLoading(false);
-            } else {
-                return { cancelled: true };
-            }
-        } catch ({ message }) {
-            alert("login: Error:" + message);
-        }
-        setIsLoading(false);
-    }
-
-    // useEffect(() => {
-    //     initAsync();
-    // }, []);
-
-    // const initAsync = async () => {
-    //     await GoogleSignIn.initAsync({
-    //         // You may ommit the clientId when the firebase `googleServicesFile` is configured
-    //         clientId: androidClientId,
-    //     });
-    //     _syncUserWithStateAsync();
-    // };
-
-    // const _syncUserWithStateAsync = async () => {
-    //     const user = await GoogleSignIn.signInSilentlyAsync();
-    //     setUser(user);
-    // };
-
-    // const signInWithGoogle = async () => {
+    // async function signInWithGoogle() {
+    //     setIsLoading(true);
     //     try {
-    //         await GoogleSignIn.askForPlayServicesAsync();
-    //         const { type, user } = await GoogleSignIn.signInAsync();
-    //         if (type === "success") {
-    //             _syncUserWithStateAsync();
+    //         const result = await Google.logInAsync({
+    //             androidClientId: androidAppId,
+    //             iosClientId: "ios" + androidAppId,
+    //             behavior: "web",
+    //             scopes: ["profile", "email"],
+    //             permissions: ["public_profile", "email", "gender", "location"],
+    //         });
+
+    //         if (result.type === "success") {
+    //             // setUser(result.user);
+    //             console.log(result.user);
+
+    //             dispatch(login(result.user));
+    //             setIsLoading(false);
+    //         } else {
+    //             return { cancelled: true };
     //         }
     //     } catch ({ message }) {
     //         alert("login: Error:" + message);
     //     }
-    // };
+    //     setIsLoading(false);
+    // }
+
+    useEffect(() => {
+        initAsync();
+    }, []);
+
+    const initAsync = async () => {
+        await GoogleSignIn.initAsync({
+            // You may ommit the clientId when the firebase `googleServicesFile` is configured
+            clientId: androidAppId,
+        });
+        _syncUserWithStateAsync();
+    };
+
+    const _syncUserWithStateAsync = async () => {
+        const user = await GoogleSignIn.signInSilentlyAsync();
+        setUser(user);
+    };
+
+    const signInWithGoogle = async () => {
+        try {
+            await GoogleSignIn.askForPlayServicesAsync();
+            const { type, user } = await GoogleSignIn.signInAsync();
+            if (type === "success") {
+                _syncUserWithStateAsync();
+            }
+        } catch ({ message }) {
+            alert("login: Error:" + message);
+        }
+    };
 
     //  For future use
     async function signInWithFacebook() {
